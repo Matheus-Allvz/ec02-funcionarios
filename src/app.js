@@ -1,6 +1,29 @@
 const funcionarios = [];
 let proximoId = 1;
 let editandoId = null;
+let relatorioAtual = null;
+
+const relatorios = {
+  salarioAlto: () => funcionarios.filter(funcionario => funcionario.salario > 5000).map(funcionario => funcionario.toString()),
+  mediaSalarial: () => funcionarios.length
+    ? [`Média salarial: ${moeda(funcionarios.reduce((soma, funcionario) => soma + funcionario.salario, 0) / funcionarios.length)}`]
+    : [],
+  cargos: () => [...new Set(funcionarios.map(funcionario => funcionario.cargo))],
+  nomes: () => funcionarios.map(funcionario => funcionario.nome.toUpperCase())
+};
+
+const exibirRelatorio = () => {
+  if (!relatorioAtual) return;
+  const linhas = relatorios[relatorioAtual]();
+  document.getElementById("relatorio").textContent = linhas.length ? linhas.join("\n") : "Nenhum funcionário encontrado.";
+};
+
+document.querySelectorAll("[data-relatorio]").forEach(botao => {
+  botao.onclick = function () {
+    relatorioAtual = this.dataset.relatorio;
+    exibirRelatorio();
+  };
+});
 
 const buscarPorId = id => funcionarios.find(funcionario => funcionario.id === id);
 
@@ -83,4 +106,6 @@ const renderizar = () => {
 
     tabela.appendChild(linha);
   }
+
+  exibirRelatorio();
 };
