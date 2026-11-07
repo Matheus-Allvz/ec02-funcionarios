@@ -2,40 +2,32 @@ const funcionarios = [];
 let proximoId = 1;
 let editandoId = null;
 
-function buscarPorId(id) {
-  return funcionarios.find(function (funcionario) {
-    return funcionario.id === id;
-  });
-}
+const buscarPorId = id => funcionarios.find(funcionario => funcionario.id === id);
 
-function remover(id) {
-  const indice = funcionarios.findIndex(function (funcionario) {
-    return funcionario.id === id;
-  });
+const remover = id => {
+  const indice = funcionarios.findIndex(funcionario => funcionario.id === id);
   if (indice >= 0) funcionarios.splice(indice, 1);
-}
+};
 
-function atualizar(funcionario, dados) {
+const atualizar = (funcionario, dados) => {
   funcionario.nome = dados.nome;
   funcionario.idade = dados.idade;
   funcionario.cargo = dados.cargo;
   funcionario.salario = dados.salario;
-}
+};
 
-function lerFormulario() {
-  return {
-    nome: document.getElementById("nome").value,
-    idade: Number(document.getElementById("idade").value),
-    cargo: document.getElementById("cargo").value,
-    salario: Number(document.getElementById("salario").value)
-  };
-}
+const lerFormulario = () => ({
+  nome: document.getElementById("nome").value,
+  idade: Number(document.getElementById("idade").value),
+  cargo: document.getElementById("cargo").value,
+  salario: Number(document.getElementById("salario").value)
+});
 
-function limparFormulario() {
+const limparFormulario = () => {
   document.getElementById("form").reset();
   document.getElementById("salvar").textContent = "Cadastrar";
   editandoId = null;
-}
+};
 
 document.getElementById("salvar").onclick = function () {
   if (!document.getElementById("form").reportValidity()) return;
@@ -51,7 +43,7 @@ document.getElementById("salvar").onclick = function () {
   renderizar();
 };
 
-function renderizar() {
+const renderizar = () => {
   const tabela = document.getElementById("tabela");
   tabela.innerHTML = "";
 
@@ -91,4 +83,4 @@ function renderizar() {
 
     tabela.appendChild(linha);
   }
-}
+};
